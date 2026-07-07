@@ -17,9 +17,12 @@ class Tree {
   buildTree(array) {
     //remove duplicates
     let uniqueArray = [...new Set(array)];
-    console.log(uniqueArray);
     //sort
+    uniqueArray = uniqueArray.sort((a, b) => a - b);
     //call a recursive helper on the sorted array
+
+    let root = this.#buildTreeRecursive(uniqueArray, 0, uniqueArray.length - 1 );
+    return root;
   }
 
   #buildTreeRecursive(sortedArray, start, end) {
@@ -38,10 +41,40 @@ class Tree {
     
     return root;
   }
+
+  includes(value, node = this.root) {
+    //case 1: node is null
+    if (node === null) return false;
+    //case 2: node.data === value
+    if (value === node.data) return true;
+    //case 3: decide to recurse into node.left or node.right
+    if (value > node.data) {
+      return this.includes(value, node.right);
+    }
+    if (value < node.data) {
+      return this.includes(value, node.left);
+    }
+  }
+
+
+
+  prettyPrint(node = this.root, prefix = '', isLeft = true) {
+    if (node === null || node === undefined) {
+      return;
+    }
+    this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
 }
 
-//[10, 1, 21, 2].sort((a, b) => a - b)
-// → [1, 2, 10, 21]
 
-let nums = [10, 1, 21, 2];
-console.log(nums.sort());
+
+
+
+let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+
+
+tree.prettyPrint();
+console.log(tree.includes(11));
+
