@@ -51,9 +51,12 @@ class Tree {
   insert(value, node = this.root) {
     //accept and insert a new node with that value into the tree
     const temp = new Node(value);
-    if (node === null) return temp;
-    //let current = node;
+    if (node === null) {
+      this.root = temp;
+      return;
+    }
     while (node !== null) {
+      if (node.data === value) return;
       if (node.data > value && node.left !== null) {
         node = node.left;
       } else if ( node.data < value && node.right !== null) {
@@ -63,11 +66,6 @@ class Tree {
     if (node.data > value) node.left = temp;
     else node.right = temp;
     return node;
-    //1: make sure there are no matching values
-
-    //2: make sure nodes to the left are lower and to the right higher
-
-    //3: insert node
   }
 
 
@@ -87,8 +85,9 @@ class Tree {
 
 let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-
+tree.insert(18);
 tree.prettyPrint();
-console.log(tree.includes(1500));
-console.log(tree.insert(99));
 
+// let emptyTree = new Tree([]);
+// emptyTree.insert(5);
+// emptyTree.prettyPrint();
