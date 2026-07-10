@@ -1,7 +1,7 @@
+#!/usr/bin/env node
 
 
-
-class Node {
+export class Node {
   constructor(data) {
     this.data = data;
     this.left = null;
@@ -9,7 +9,7 @@ class Node {
   }
 }
 
-class Tree {
+export class Tree {
   constructor(array) {
     this.root = this.buildTree(array);
   }
@@ -35,11 +35,8 @@ class Tree {
   }
 
   includes(value, node = this.root) {
-    //case 1: node is null
     if (node === null) return false;
-    //case 2: node.data === value
     if (value === node.data) return true;
-    //case 3: decide to recurse into node.left or node.right
     if (value > node.data) {
       return this.includes(value, node.right);
     }
@@ -75,10 +72,21 @@ class Tree {
     return node.data;
   }
 
-  deleteItem(value, node = this.root) {
-    // if no children set pointer from deleted nodes parent to null
+  deleteItem(value) {
+    this.root = this.#deleteRecursive(value, this.root);
+  }
+
+  #deleteRecursive(value, node) {
     if (node === null) {
       return null;
+    }
+    if (value < node.data) {
+      node.left =  this.#deleteRecursive(value, node.left);
+      return node;
+    }
+    if (value > node.data) {
+      node.right =  this.#deleteRecursive(value, node.right);
+      return node;
     }
     if (value === node.data) {
       if (node.left === null && node.right === null) {
@@ -93,22 +101,13 @@ class Tree {
       if (node.left !== null && node.right !== null) {
         let successorValue = this.#findMin(node.right);
         node.data = successorValue;
-        node.right = this.deleteItem(node.right, successorValue);
+        node.right = this.#deleteRecursive(successorValue, node.right);
+        return node;
       }
       return node;
     }
-    // if node has a child set the pointer from deleted node to point to child
-    // if node has 2 children usually pick in-order successor(smallest value in the right subtree)
-    // the inorder successor will always be bigger than the values in the left subtree and will be the smallest of all the children in the right subtree
-    //1. search for the node with the target value
-    //2. once found check how many children it has
-      //0 remove it -> return null
-      //1 replace it with its child and parents pointer skips over it points to its child directly -> return node.right or node.left
-      //2 find the in order successor, smallest value in the right subtree, copy that value into the
-      //   current node then recursively delete the successor from right subtree -> find in-order successor, copy its value into node.data
-                                                                                      //delete successor from node.right
-      //return node
   }
+
 
 
   prettyPrint(node = this.root, prefix = '', isLeft = true) {
@@ -123,13 +122,18 @@ class Tree {
 
 
 
-
-
 let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-// tree.insert(2);
+//let tree = new Tree([2]);
+
+// tree.prettyPrint();
+// tree.deleteItem(6345);
 // tree.prettyPrint();
 
-// let emptyTree = new Tree([]);
-// emptyTree.insert(5);
-// emptyTree.prettyPrint();
+// tree.prettyPrint();
+// tree.insert(99);
+// tree.prettyPrint();
+
+// tree.prettyPrint();
+// console.log(tree.includes(1100));
+
