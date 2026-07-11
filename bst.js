@@ -111,7 +111,7 @@ export class Tree {
   levelOrderForEach(callback) {
     if (this.root === null) return;
     if (typeof callback !== "function") {
-      throw new Error("A callback function is required");
+      throw new Error("No callback is given as argument");
     }
     let queue = [this.root];
     while (queue.length > 0) {
@@ -126,16 +126,103 @@ export class Tree {
     }
   }
 
-  inOrderForEach(callback) {
-    
+  inOrderForEachR(callback, node = this.root) {
+//Recursion
+    if (typeof callback !== "function") {
+      throw new Error("No callback is given as argument")
+    }
+    if (node === null) return;
+    this.inOrderForEachR(callback, node.left);
+    callback(node);
+    this.inOrderForEachR(callback, node.right);
   }
 
-  preOrderForEach(callback) {
+  inOrderForEachI(callback) {
+//Iteration
+    if (typeof callback !== "function") {
+      throw new Error("No callback is given as argument")
+    }
+    let stack = [];
+    let current = this.root;
 
+    while (current !== null || stack.length > 0) {
+      while (current !== null) {
+        stack.push(current);
+        current = current.left;
+      }
+      let popped = stack.pop();
+      callback(popped);
+      current = popped.right;
+    }
   }
 
-  postOrderForEach(callback) {
+  preOrderForEachR(callback, node = this.root) {
+//Recursion
+    if (typeof callback !== "function") {
+      throw new Error("No callback is given as argument")
+    }
+    if (node === null) return;
+    callback(node);
+    this.preOrderForEachR(callback, node.left);
+    this.preOrderForEachR(callback, node.right);
+  }
 
+  preOrderForEachI(callback) {
+//Iteration
+    if (typeof callback !== "function") {
+      throw new Error("No callback is given as argument")
+    }
+    if (this.root === null) return;
+    let stack = [this.root];
+
+    while (stack.length > 0) {
+      let current = stack.pop();
+      callback(current);
+      if (current.right) {
+        stack.push(current.right);
+      }
+      if (current.left) {
+        stack.push(current.left);
+      }
+    }
+  }
+
+
+  postOrderForEachR(callback, node = this.root) {
+//Recursion
+    if (typeof callback !== "function") {
+      throw new Error("No callback is given as argument")
+    }
+    if (node === null) return;
+    this.postOrderForEachR(callback, node.left);
+    this.postOrderForEachR(callback, node.right);
+    callback(node);
+  }
+
+  postOrderForEachI(callback) {
+//Iteration
+    if (typeof callback !== "function") {
+      throw new Error("No callback is given as argument")
+    }
+    if (this.root === null) return;
+
+    let stack1 = [this.root];
+    let stack2 = [];
+
+    while (stack1.length > 0) {
+      let popped = stack1.pop();
+      stack2.push(popped);
+      if (popped.left) {
+        stack1.push(popped.left);
+      }
+      if (popped.right) {
+        stack1.push(popped.right)
+      }
+    }
+    while (stack2.length > 0) {
+      let popped = stack2.pop();
+      callback(popped);
+    }
   }
 
   prettyPrint(node = this.root, prefix = '', isLeft = true) {
@@ -150,9 +237,9 @@ export class Tree {
 
 
 
-let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+let tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
-//let tree = new Tree([2]);
+// let tree = new Tree([2]);
 
 // tree.prettyPrint();
 // tree.deleteItem(6345);
@@ -163,7 +250,19 @@ let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // tree.prettyPrint();
 
 tree.prettyPrint();
+
 // console.log(tree.includes(1100));
 
-//tree.levelOrderForEach(node => console.log(node.data));
-//tree.levelOrderForEach();
+// tree.levelOrderForEach(node => console.log(node.data));
+// tree.levelOrderForEach();
+
+// tree.preOrderForEachR(node => console.log(node.data));
+// tree.preOrderForEachI(node => console.log(node.data));
+
+
+// tree.inOrderForEachR(node => console.log(node.data));
+// tree.inOrderForEachI(node => console.log(node.data));
+
+
+// tree.postOrderForEachR(node => console.log(node.data));
+// tree.postOrderForEachI(node => console.log(node.data));
