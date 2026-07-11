@@ -108,7 +108,35 @@ export class Tree {
     }
   }
 
+  levelOrderForEach(callback) {
+    if (this.root === null) return;
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+    let queue = [this.root];
+    while (queue.length > 0) {
+      let current = queue.shift();
+      callback(current);
+      if (current.left !== null) {
+        queue.push(current.left);
+      }
+      if (current.right !== null) {
+        queue.push(current.right);
+      }
+    }
+  }
 
+  inOrderForEach(callback) {
+    
+  }
+
+  preOrderForEach(callback) {
+
+  }
+
+  postOrderForEach(callback) {
+
+  }
 
   prettyPrint(node = this.root, prefix = '', isLeft = true) {
     if (node === null || node === undefined) {
@@ -134,6 +162,8 @@ let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 // tree.insert(99);
 // tree.prettyPrint();
 
-// tree.prettyPrint();
+tree.prettyPrint();
 // console.log(tree.includes(1100));
 
+//tree.levelOrderForEach(node => console.log(node.data));
+//tree.levelOrderForEach();
