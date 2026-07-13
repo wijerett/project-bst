@@ -225,6 +225,32 @@ export class Tree {
     }
   }
 
+  #findNode(value, node = this.root){
+    //node is null return what
+    //value matches node.data return what
+    //recurse left or right, same comparison logic
+  }
+  heightOfBinary(node = this.root) {
+    if (node === null) {
+      return -1;
+    }
+    const leftHeight = this.heightOfBinary(node.left);
+    const rightHeight = this.heightOfBinary(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  depth(value) {
+
+  }
+
+  isBalanced() {
+
+  }
+
+  rebalance() {
+
+  }
+
   prettyPrint(node = this.root, prefix = '', isLeft = true) {
     if (node === null || node === undefined) {
       return;
@@ -266,3 +292,5 @@ tree.prettyPrint();
 
 // tree.postOrderForEachR(node => console.log(node.data));
 // tree.postOrderForEachI(node => console.log(node.data));
+
+console.log(tree.heightOfBinary())
