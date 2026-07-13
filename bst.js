@@ -46,7 +46,6 @@ export class Tree {
   }
 
   insert(value, node = this.root) {
-    //accept and insert a new node with that value into the tree
     const temp = new Node(value);
     if (node === null) {
       this.root = temp;
@@ -226,10 +225,16 @@ export class Tree {
   }
 
   #findNode(value, node = this.root){
-    //node is null return what
-    //value matches node.data return what
-    //recurse left or right, same comparison logic
+    if (node === null) return null;
+    if (value === node.data) return node;
+    if (value < node.data) {
+      return this.#findNode(value, node.left);
+    }
+    if (value > node.data) {
+      return this.#findNode(value, node.right);
+    }
   }
+
   heightOfBinary(node = this.root) {
     if (node === null) {
       return -1;
@@ -237,6 +242,12 @@ export class Tree {
     const leftHeight = this.heightOfBinary(node.left);
     const rightHeight = this.heightOfBinary(node.right);
     return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  height(value) {
+    let node = this.#findNode(value);
+    if (node === null) return undefined;
+    return this.heightOfBinary(node);
   }
 
   depth(value) {
@@ -263,7 +274,8 @@ export class Tree {
 
 
 
-let tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+let tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
 
 // let tree = new Tree([2]);
 
@@ -293,4 +305,4 @@ tree.prettyPrint();
 // tree.postOrderForEachR(node => console.log(node.data));
 // tree.postOrderForEachI(node => console.log(node.data));
 
-console.log(tree.heightOfBinary())
+console.log(tree.height(7));
