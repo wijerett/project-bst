@@ -250,13 +250,26 @@ export class Tree {
     return this.heightOfBinary(node);
   }
 
-  depth(value) {
-
+  depth(value, node = this.root, count = 0) {
+    if (node === null) return undefined;
+    if (value === node.data) return count;
+    if (value < node.data) {
+      return this.depth(value, node.left, count + 1);
+    }
+    if (value > node.data) {
+      return this.depth(value, node.right, count + 1);
+    }
   }
+
+
+
 
   isBalanced() {
-
+    
   }
+
+
+
 
   rebalance() {
 
@@ -305,4 +318,6 @@ tree.prettyPrint();
 // tree.postOrderForEachR(node => console.log(node.data));
 // tree.postOrderForEachI(node => console.log(node.data));
 
-console.log(tree.height(7));
+// console.log(tree.height(7));
+
+// console.log(tree.depth(18));
