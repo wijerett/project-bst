@@ -224,31 +224,45 @@ export class Tree {
     }
   }
 
-  #findNode(value, node = this.root){
-    if (node === null) return null;
-    if (value === node.data) return node;
-    if (value < node.data) {
-      return this.#findNode(value, node.left);
-    }
-    if (value > node.data) {
-      return this.#findNode(value, node.right);
-    }
-  }
+  // #findNode(value, node = this.root){
+  //   if (node === null) return null;
+  //   if (value === node.data) return node;
+  //   if (value < node.data) {
+  //     return this.#findNode(value, node.left);
+  //   }
+  //   if (value > node.data) {
+  //     return this.#findNode(value, node.right);
+  //   }
+  // }
 
-  heightOfBinary(node = this.root) {
-    if (node === null) {
-      return -1;
-    }
-    const leftHeight = this.heightOfBinary(node.left);
-    const rightHeight = this.heightOfBinary(node.right);
-    return Math.max(leftHeight, rightHeight) + 1;
-  }
+  // heightOfBinary(node = this.root) {
+  //   if (node === null) {
+  //     return -1;
+  //   }
+  //   const leftHeight = this.heightOfBinary(node.left);
+  //   const rightHeight = this.heightOfBinary(node.right);
+  //   return Math.max(leftHeight, rightHeight) + 1;
+  // }
 
-  height(value) {
-    let node = this.#findNode(value);
+  // height(value) {
+  //   let node = this.#findNode(value);
+  //   if (node === null) return undefined;
+  //   return this.heightOfBinary(node);
+  // }
+
+
+  height(value, node = this.root) {
     if (node === null) return undefined;
-    return this.heightOfBinary(node);
+    if (value < node.data) return this.height(value, node.left);
+    if (value > node.data) return this.height(value, node.right);
+    return this.#calculateHeight(node);
   }
+
+  #calculateHeight(node) {
+    if (node === null) return -1;
+    return Math.max(this.#calculateHeight(node.left), this.#calculateHeight(node.right)) + 1;
+  }
+
 
   depth(value, node = this.root, count = 0) {
     if (node === null) return undefined;
@@ -318,6 +332,6 @@ tree.prettyPrint();
 // tree.postOrderForEachR(node => console.log(node.data));
 // tree.postOrderForEachI(node => console.log(node.data));
 
-// console.log(tree.height(7));
+console.log(tree.height(15));
 
 // console.log(tree.depth(18));
