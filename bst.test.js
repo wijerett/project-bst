@@ -1,8 +1,7 @@
-import { Node } from "./bst.js";
 import { Tree } from "./bst.js";
 
 
-const node = new Node();
+
 let tree;
 beforeEach(() => {
     tree = new Tree([1, 67, 6345, 324]);
@@ -66,4 +65,33 @@ test('returns values by left, right, then root', () => {
     let result = [];
     tree.postOrderForEachI(node => result.push(node.data));
     expect(result).toEqual([1, 6345, 324, 67]);
+});
+
+test('returns number of edges from given values node to deepest leaf', () => {
+    expect(tree.height(67)).toBe(2);
+});
+
+test('returns number of edges from given values node to root', () => {
+    expect(tree.depth(6345)).toBe(2);
+});
+
+test('returns true for a balanced tree', () => {
+    expect(tree.isBalanced()).toBe(true);
+});
+
+test('checks if tree is balanced', () => {
+    tree.insert(6);
+    tree.insert(7);
+    tree.insert(8);
+    tree.insert(9);
+    expect(tree.isBalanced()).toBe(false);
+});
+
+test('rebalance unbalanced tree', () => {
+    tree.insert(6);
+    tree.insert(7);
+    tree.insert(8);
+    tree.insert(9);
+    tree.rebalance();
+    expect(tree.isBalanced()).toBe(true);
 });

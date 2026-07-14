@@ -284,7 +284,9 @@ export class Tree {
   }
 
   rebalance() {
-
+    let values = [];
+    this.inOrderForEachR(node => values.push(node.data));
+    this.root = this.buildTree(values);
   }
 
   prettyPrint(node = this.root, prefix = '', isLeft = true) {
@@ -299,8 +301,8 @@ export class Tree {
 
 
 
-let tree = new Tree([11, 12, 13, 14, 15, 16, 17,
-18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
+// let tree = new Tree([11, 12, 13, 14, 15, 16, 17,
+// 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
 
 // let tree = new Tree([2]);
 
@@ -312,7 +314,7 @@ let tree = new Tree([11, 12, 13, 14, 15, 16, 17,
 // tree.insert(99);
 // tree.prettyPrint();
 
-tree.prettyPrint();
+// tree.prettyPrint();
 
 // console.log(tree.includes(1100));
 
@@ -342,4 +344,8 @@ tree.prettyPrint();
 // tree.prettyPrint();
 // console.log(tree.isBalanced());
 
+// tree.rebalance();
 
+// tree.prettyPrint();
+
+// console.log(tree.isBalanced());
