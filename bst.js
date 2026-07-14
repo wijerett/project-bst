@@ -235,14 +235,14 @@ export class Tree {
   //   }
   // }
 
-  // heightOfBinary(node = this.root) {
-  //   if (node === null) {
-  //     return -1;
-  //   }
-  //   const leftHeight = this.heightOfBinary(node.left);
-  //   const rightHeight = this.heightOfBinary(node.right);
-  //   return Math.max(leftHeight, rightHeight) + 1;
-  // }
+  heightOfBinary(node = this.root) {
+    if (node === null) {
+      return -1;
+    }
+    const leftHeight = this.heightOfBinary(node.left);
+    const rightHeight = this.heightOfBinary(node.right);
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
 
   // height(value) {
   //   let node = this.#findNode(value);
@@ -275,15 +275,13 @@ export class Tree {
     }
   }
 
-
-
-
-  isBalanced() {
-    
+  isBalanced(node = this.root) {
+    if (node === null) return true;
+    const lHeight = this.heightOfBinary(node.left);
+    const rHeight = this.heightOfBinary(node.right);
+    if (Math.abs(lHeight - rHeight) > 1) return false;
+    return this.isBalanced(node.left) && this.isBalanced(node.right);
   }
-
-
-
 
   rebalance() {
 
@@ -301,7 +299,7 @@ export class Tree {
 
 
 
-let tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+let tree = new Tree([11, 12, 13, 14, 15, 16, 17,
 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
 
 // let tree = new Tree([2]);
@@ -332,6 +330,16 @@ tree.prettyPrint();
 // tree.postOrderForEachR(node => console.log(node.data));
 // tree.postOrderForEachI(node => console.log(node.data));
 
-console.log(tree.height(15));
+// console.log(tree.height(15));
 
 // console.log(tree.depth(18));
+
+
+// tree.insert(4);
+// tree.insert(5);
+// tree.insert(6);
+// tree.insert(7);
+// tree.prettyPrint();
+// console.log(tree.isBalanced());
+
+
